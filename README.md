@@ -62,12 +62,12 @@ data was iteratively expanded. As unlabeled data, I use the
 
     File | Description | Examples
     ---|---|---
-    [mix1.txt.gz](./data/mix1.txt.gz) | single words | "good" $\rightarrow$ "bad"
-    [mix3.txt.gz](./data/mix3.txt.gz) | single words | "unlucky" $\rightarrow$ "fortunate"
-    [mix4.txt.gz](./data/mix4.txt.gz) | simple phrases | "go to work" $\rightarrow$ "work from home"
-    [mix5.txt.gz](./data/mix5.txt.gz) | more sentences | "This is the preferred method." $\rightarrow$ "This method is not preferred."
+    [mix1.txt.gz](data/mix1.txt.gz) | single words | "good" $\rightarrow$ "bad"
+    [mix3.txt.gz](data/mix3.txt.gz) | single words | "unlucky" $\rightarrow$ "fortunate"
+    [mix4.txt.gz](data/mix4.txt.gz) | simple phrases | "go to work" $\rightarrow$ "work from home"
+    [mix5.txt.gz](data/mix5.txt.gz) | more sentences | "This is the preferred method." $\rightarrow$ "This method is not preferred."
     ...|...|...
-    [mix23.txt.gz](./data/mix23.txt.gz) | longer sentences | "It may not have been pretty, but it still tasted good." $\rightarrow$ "It may have been pretty, but it still tasted bad."
+    [mix23.txt.gz](data/mix23.txt.gz) | longer sentences | "It may not have been pretty, but it still tasted good." $\rightarrow$ "It may have been pretty, but it still tasted bad."
 
 These iterations could be done quickly using [./viewer_sft.py](./viewer_sft.py).
 
