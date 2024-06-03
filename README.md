@@ -1,110 +1,185 @@
-# OpposiText - Transformer Model to generate "opposite text".
+# OpposiText - Transformer for Generating "Opposite Text"
 
-OpposiText is a transformer model based on the T5 architecture. The
-model is bootstrapped from the T5-small baseline.
+OpposiText is an encoder-decoder transformer model designed to generate
+"opposite text" from a given input sentence. It is initially bootstrapped from
+the T5-base model using labeled data via supervised fine-tuning (SFT). Further
+improvements are achieved through a rule-based reward model and a reward model
+trained on preference data using Proximal Policy Optimization (PPO) in a
+Reinforcement Learning with Human Feedback (RLHF) framework.
 
-The model generates sentences with an inverted / negated / opposite meaning of
-it's input sentence. Overall, the project focuses on sentences of up to 12
-words.
+![Gif](tty_cropped.gif)
+
+# Task Definition
+
+The model generates sentences with an inverted, negated, or opposite meaning of
+its input sentence:
+
+1. For a simple sentence:
+    * $opposite(\textnormal{"X is Y"})=\textnormal{"X is not Y"}$ or
+    * $opposite(\textnormal{"X is Y"})=\textnormal{"X is Z"}$ where Z is an antonym of X.
+2. For more complex sentences: When applying the $opposite(x)$ operation twice,
+   it should (in principle) be possible to return back to the original
+   input:
+    * $opposite^2(X) = X$.
+3. For questions, returning a different but similar question is sufficient.
+4. As a guideline, the project focuses on sentences of up to 12 words.
+
+(2) implies that the model should **avoid hallucinations and drifting** away too
+far from the input sentence.
 
 **Examples:**
-
-Input | Output
----|---
-Good. | Bad.
-Today is a great day. | Today is a bad day.
-Generate the oppisite text. | Allow the same text.
-Eat the rich. | Eat the poor.
-Use SFT and PPO for training. | Don't use SFT and PPO for training.
-The investigation took place in 2024 | The investigation didn't take place in 2024.
-I am happy.	| I am sad.
-The weather is sunny. | The weather is rainy.
-He is strong. | He is weak.
-
-Overall, the model should avoid "hallucinations" and driftig away too far from
-the input sentence. To achieve this, the following techniques are used.
-
-Bootstrapping the model:
-1. Supervised fine-tuning
-2. Training data augmentation
-
-Avoiding "hallucinations" and "topical drift":
-3. Reward modeling
-4. RLHF using PPO
-
-I evaluate the models using ELO ratings to show how the techniques improve the
-performance of the model.
+* Good. $\rightarrow$ Bad.
+* I am happy.	$\rightarrow$ I am sad.
+* He is strong. $\rightarrow$ He is weak.
+* Generate the opposite text. $\rightarrow$ Generate the same text.
+* The weather is sunny. $\rightarrow$ The weather is rainy.
+* Research took place in 2024 $\rightarrow$ Research didn't take place in 2024.
 
 # Model
-T5-Small [paper](https://jmlr.org/papers/volume21/20-074/20-074.pdf).
 
-> Small. We consider a smaller model, which scales the baseline down by using
-> dmodel = 512, dff = 2,048, 8-headed attention, and only 6 layers each in the
-> encoder and decoder. This variant has about 60 million parameters.
+The model is bootstrapped from the
+[T5-Base](https://jmlr.org/papers/volume21/20-074/20-074.pdf) encoder-decoder
+model with approximately $220M$ parameters. The T5-Base model has a hidden size
+of $768$, an inner layer size (feedforward network) of $3072$, $12$ attention
+heads, and $12$ layers in both the encoder and decoder. (The early versions
+were using T5-Small with $60M$ parameters.)
 
+# Training
 
-# Definition of the Task
+## Supervised Fine Tuning (SFT)
 
-For an input sentence, return a sentence with the opposite meaning. For a
-simple sentence like "X is Y" it should be "X is not Y" or "X is Z" where Z is
-an antonym.
+Setting up the training data was done in several iterations. The set of SFT
+data was iteratively expanded.
 
-For more complex sentences like "X is Y and Z" it should be "X is not Y and not
-Z".
+1. Bootstrap with a list of 750 antonyms (see [mix1.txt.gz](./data/mix1.txt.gz))
+2. Iteratively generate output on a previously unlabeled data, handpick good responses using [./viewer_sft.py](./viewer_sft.py)
 
-For questions, asking a different question is good enough.
+    File | Description | Examples
+    ---|---|---
+    [mix1.txt.gz](./data/mix1.txt.gz) | single words | "good" $\rightarrow$ "bad"
+    [mix3.txt.gz](./data/mix3.txt.gz) | single words | "unlucky" $\rightarrow$ "fortunate"
+    [mix4.txt.gz](./data/mix4.txt.gz) | simple phrases | "go to work" $\rightarrow$ "work from home"
+    [mix5.txt.gz](./data/mix5.txt.gz) | more sentences | "This is the preferred method." $\rightarrow$ "This method is not preferred."
+    ...|...|...
+    [mix23.txt.gz](./data/mix23.txt.gz) | longer sentences | "It may not have been pretty, but it still tasted good." $\rightarrow$ "It may have been pretty, but it still tasted bad."
 
-X if Y -> Not X if Not Y.
+These iterations could be done quickly using [./sft_viewer.py](./sft_viewer.py).
 
-Do X to achieve Y.
-Do not do X to achieve not Y.
+It displays predictions for a randomly chosen prompt and let's the user select
+responses to be added to the training data.
 
+## RLHF
 
-# Base model: T5-simple
-The base model used for this task is the T5 simple. [ADD DESCRIPTION]
+The SFT trained model gets the basics right - but every now and then produces
+output that doesn't follow the definition of the task:
 
-# Supervised Fine-Tuning
+1. Output is identical to the input sentence
+2. Output is too far away from the input sentence
+3. Output is ungrammatical
+4. Other candidates would be a better answer
 
-I do several iterations of getting training data.
+To counteract this, I implement and combine two reward models:
+* A rule-based reward model to address (1) - (3)
+* A classifier trained on preference data to address (4)
 
-## Bootstrapping: A list of antonyms.
-I collect a list of 400 antonyms. I use the fact that "A = NOT(B)" also implies
-that "B = NOT(A)" so we can double the training data.
+### Rule-Based Reward Model
+This is implemented in [./rule-based-reward-model.py](./rule-based-reward-model.py):
 
-## Simple sentences.
+By observing the undesired outputs, I came up with the following simple
+rule-based reward model. It consists of two factors and is of the form:
 
-## Mining opposites.
-I implement sft_viewer.py. I run the model against a corpus of prompts. I then
-get the outputs. I pre-filter the outputs and then manually select what's OK.
-This is added to the SFT examples.
+\[
+\rho(\textnormal{input}, \textnormal{output}) = \alpha(\textnormal{input}, \textnormal{output}) \cdot \beta(\textnormal{input}, \textnormal{output})
+\]
 
-# RLHF
+* **Part 1: $\alpha(\textnormal{input}, \textnormal{output})$**
+    * Are input and output non-identical?
+    * Are the length of the input and output strings approximately equal?
+    * Is punctuation in the input and output strings approximately equal?
 
-## Reward Modeling
+    If all the conditions are fulfulled, then $\alpha=1.0$, otherwise its
+    $\alpha=0.1$.
 
-### Rule-Based
+* **Part 2: $\beta(\textnormal{input}, \textnormal{output})$**
+    * Not all the words should change (jaccard index over words)
+    * No excessive repetition of words
 
-Part 1: $\alpha$:
-* Don't produce identical outputs.
-* The length should be similar
-* Punctuation should be similar
-
-Part 2: $\beta$:
-* Not all the words should change (jaccard index over words)
-* No excessive reperition of words
+    The value of $\beta$ ranges from $0.0$ to $2.0$, with $2.0$ indicating very
+    similar inputs and outputs without excessive repetitions.
 
 This overall rule reward is then $\alpha \cdot \beta$.
 
-### Preference Data
-I implement ppo-viewer. Present 2 alternatives, and I pick.
+### ML Reward Model (trained on preference data)
+This is implemented in [./train_reward.py](./train_reward.py) and
+[./ppo_viewer.py](./ppo_viewer.py):
 
-Overall, the reward model didn't really learn that e.g. the identity is to be
-avoided.
+I train an ML-based reward model on preference data. For this, the SFT trained
+T5 model is used, and a classification head is added. The classification head
+is trained using a *Bradley Terry* loss on preference data, i.e. only the
+*difference* of the model's output when comparing two examples is labeled.
 
-I did two things:
-1) I generated a list of preference pairs from the decoding on a prompt corpus.
-Base is the identity (if it was generated by the model) and Winner is the best
-output as proposed by the model.
+To collect the training data, I implemented [./ppo_viewer.py](./ppo_viewer.py).
+It randomly picks two responses for a given prompt. I can then select the
+better one, or select none if I can't make a useful decision.
 
-2) I mix the rule-based reward model with the learned reward model.
+Using this data, the reward model is then trained using
+[./train_reward.py](./train_reward.py)
+
+For the candidate generation, I use a variety of different strategies. The most
+important are:
+
+* Sampled outputs from the SFT model
+* Outputs with forced antonyms of words that are found in the prompt or the
+  word "not" during decoding
+
+Additionally, I also add synthetic bad examples. For a rated pair $(g,b)$
+(g=good, b=bad, p=prompt):
+* Add the pair (g, p) since using the prompt as output is always worse.
+* Add the pair (g, p') with p' being the prompt with two input words merged ("I
+  am" $\rightarrow$ "Iam"), since corrupting the input prompt is always worse
+  than any other output.
+
+During training of the reward model, I only train the weights of the
+classification head. The rest of the SFT model weights stay fixed.
+
+### Combining Reward Models
+The reward models are combined: I use $1%$ of the rule-based reward model and
+$99%$ of the ML-based reward model. However, if the rule-based reward model has
+a very low score, the output of this combination is discounted by a factor of
+$0.8$.
+
+### Proximal Preference Optimization (PPO)
+I then use PPO on the SFT model. This is implemented in
+[./train_ppo.py](./train_ppo.py). I create a mix of prompts of various lengths:
+this is created using [./ppo_mix.sh](./ppo_mix.sh).
+
+The screenshot below shows how the average reward, starting from just the SFT
+model with $0.2438$ is improved to $0.4697$!
+
+![PPO Training](ppo_training.gif)
+
+# Evals
+For a small [./evalset](./evalset), I run some manual comparisons of the
+models trained at different stages:
+
+* **SFT Mix1 vs SFT Mix23 ([./eval1.md](./eval1.md))**
+    * **Winner 🏆: SFT Mix23**
+    * Detailed Comparisons
+        * SFT Mix23 wins 17/21 times 
+        * Draw: 0/21 times
+        * SFT Mix1 wins 4/21 times
+
+* **SFT Mix23 vs RLHF Mix23 ([./eval2.md](./eval2.md))**
+    * **Winner 🏆: PPO Mix23**
+    * Detailed Comparisons
+        *  PPO Mix23 wins 11/21 times
+        *  Draw: 8/21 times
+        *  SFT Mix23 wins 2/21
+
+**Conclusion:**
+**The overall winner 🏆 is: PPO Mix23.**
+
+* Gathering more SFT training data improved the model over the initial limited
+  SFT data.
+* The model was further improved using PPO
 
