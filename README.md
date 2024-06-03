@@ -94,9 +94,7 @@ This is implemented in [./rule-based-reward-model.py](./rule-based-reward-model.
 By observing the undesired outputs, I came up with the following simple
 rule-based reward model. It consists of two factors and is of the form:
 
-\[
-\rho(\textnormal{input}, \textnormal{output}) = \alpha(\textnormal{input}, \textnormal{output}) \cdot \beta(\textnormal{input}, \textnormal{output})
-\]
+$$\rho(\textnormal{input}, \textnormal{output}) = \alpha(\textnormal{input}, \textnormal{output}) \cdot \beta(\textnormal{input}, \textnormal{output})$$
 
 * **Part 1: $\alpha(\textnormal{input}, \textnormal{output})$**
     * Are input and output non-identical?
