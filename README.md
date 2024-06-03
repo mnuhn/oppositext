@@ -2,12 +2,17 @@
 
 OpposiText is an encoder-decoder transformer model designed to generate
 "opposite text" from a given input sentence. It is initially bootstrapped from
-the T5-base model using labeled data via supervised fine-tuning (SFT). Further
-improvements are achieved through a rule-based reward model and a reward model
-trained on preference data using Proximal Policy Optimization (PPO) in a
-Reinforcement Learning with Human Feedback (RLHF) framework.
+the [T5-Base](https://jmlr.org/papers/volume21/20-074/20-074.pdf) model using
+labeled data via supervised fine-tuning (SFT). Further improvements are
+achieved through a rule-based reward model and a reward model trained on
+preference data using Proximal Policy Optimization (PPO) in a Reinforcement
+Learning with Human Feedback (RLHF) framework.
 
 ![Gif](tty_cropped.gif)
+
+The final model can be downloaded
+[here](./data/mix24.base.model.ppo.ppo-step231.tar.gz). See
+[LICENSE.md](./data/LICENSE.md) for detailed atrributions and licenses.
 
 # Task Definition
 
