@@ -49,7 +49,8 @@ were using T5-Small with $60M$ parameters.)
 ## Supervised Fine Tuning (SFT)
 
 Setting up the training data was done in several iterations. The set of SFT
-data was iteratively expanded.
+data was iteratively expanded. As unlabeled data, I use the
+[Webis-Simple-Sentences-17 Corpus](https://zenodo.org/records/205950).
 
 1. Bootstrap with a list of 750 antonyms (see [mix1.txt.gz](./data/mix1.txt.gz))
 2. Iteratively generate output on a previously unlabeled data, handpick good responses using [./viewer_sft.py](./viewer_sft.py)
@@ -150,8 +151,9 @@ $0.8$.
 
 ### Proximal Preference Optimization (PPO)
 I then use PPO on the SFT model. This is implemented in
-[./train_ppo.py](./train_ppo.py). I create a mix of prompts of various lengths:
-this is created using [./ppo_mix.sh](./ppo_mix.sh).
+[./train_ppo.py](./train_ppo.py). I extract a mix of prompts of various lengths
+from the [Webis-Simple-Sentences-17 Corpus](https://zenodo.org/records/205950)
+using [./ppo_mix.sh](./ppo_mix.sh).
 
 The screenshot below shows how the average reward, starting from just the SFT
 model with $0.2438$ is improved to $0.4697$!
