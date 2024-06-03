@@ -64,7 +64,7 @@ data was iteratively expanded. As unlabeled data, I use the
     ...|...|...
     [mix23.txt.gz](./data/mix23.txt.gz) | longer sentences | "It may not have been pretty, but it still tasted good." $\rightarrow$ "It may have been pretty, but it still tasted bad."
 
-These iterations could be done quickly using [./sft_viewer.py](./sft_viewer.py).
+These iterations could be done quickly using [./viewer_sft.py](./viewer_sft.py).
 
 It displays predictions for a randomly chosen prompt and let's the user select
 responses to be added to the training data.
@@ -112,14 +112,14 @@ This overall rule reward is then $\alpha \cdot \beta$.
 
 ### ML Reward Model (trained on preference data)
 This is implemented in [./train_reward.py](./train_reward.py) and
-[./ppo_viewer.py](./ppo_viewer.py):
+[./viewer_ppo.py](./viewer_ppo.py):
 
 I train an ML-based reward model on preference data. For this, the SFT trained
 T5 model is used, and a classification head is added. The classification head
 is trained using a *Bradley Terry* loss on preference data, i.e. only the
 *difference* of the model's output when comparing two examples is labeled.
 
-To collect the training data, I implemented [./ppo_viewer.py](./ppo_viewer.py).
+To collect the training data, I implemented [./viewer_ppo.py](./viewer_ppo.py).
 It randomly picks two responses for a given prompt. I can then select the
 better one, or select none if I can't make a useful decision.
 
@@ -142,6 +142,11 @@ Additionally, I also add synthetic bad examples. For a rated pair $(g,b)$
 
 During training of the reward model, I only train the weights of the
 classification head. The rest of the SFT model weights stay fixed.
+
+The preference data I collected/generated can be found in
+[./data/mix24.reward.merged_ratings.db.gz](./data/mix24.reward.merged_ratings.db.gz)
+(compressed sqlite3 database with tables `prompts`, `completions`, `ratings`
+for SFT, and `comparisons` for preference data).
 
 ### Combining Reward Models
 The reward models are combined: I use $1%$ of the rule-based reward model and
