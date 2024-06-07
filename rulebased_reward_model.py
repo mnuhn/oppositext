@@ -22,7 +22,7 @@ def combine(rule_reward, reward, rule_reward_fac, override):
 
 antonyms = {}
 
-for l in open("rulebased_reward_model.pairs.txt"):
+for l in open("./data/rulebased_reward_model.pairs.txt"):
   s, t = l.strip().lower().split()
   if s not in antonyms:
     antonyms[s] = set()
