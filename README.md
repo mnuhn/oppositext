@@ -89,7 +89,7 @@ To counteract this, I implement and combine two reward models:
 * A classifier trained on preference data to address (4)
 
 ### Rule-Based Reward Model
-This is implemented in [./rule-based-reward-model.py](./rule-based-reward-model.py):
+This is implemented in [./rule_based_reward_model.py](./rule_based_reward_model.py):
 
 By observing the undesired outputs, I came up with the following simple
 rule-based reward model. It consists of two factors and is of the form:
