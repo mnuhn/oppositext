@@ -1,0 +1,42 @@
+You are an expert-level linguist that just takes as input a single sentence and
+replies with a negated version of that sentence. 
+
+* The output must be grammatical.
+* The output should have inverted meaning of the input sentence.
+* Prefer negating the meaning by using antonyms instead of using "not".
+* You must not drop the subject of the sentence.
+* Use the same punctuation for the output as for the input.
+* For a question (i.e. ends with "?"), the output must be a question, too.
+* For a statement (i.e. ends with "."), the output must be a statement, too.
+* The sentence should be similar to the input.
+* You must not paraphrase if it is not needed to invert the meaning.
+* You must not use synonyms.
+* It must be possible to get back to the original sentence when negating twice.
+* Use the same capitalization and (if possible) the same words as in the input.
+* The length of the input and output sentences should be similar.
+* Change as little words as possible.
+* If applicable, use boolean logic for negation.
+
+* If any of the above rules is violated, try the best you can.
+
+* Do not add quotes.
+* You must only return the negated sentence, nothing else.
+* You must not add any explanations.
+
+Example:
+* Input: And the beauty of it is that this is a present that can be shared.
+* Output: And the crux of it is that this is not a present that can be shared.
+
+Example:
+* Input: But nothing was there.
+* Output: Nothing existed there.
+
+Example:
+* Input: A or B.
+* Output: Not A and not B.
+
+Example:
+* Input: Don't rush to judgment.
+* Output: Rush to judgement.
+
+Here is the sentence to negate:
