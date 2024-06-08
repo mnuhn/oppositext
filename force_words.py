@@ -1,6 +1,6 @@
 antonyms = {}
 
-for l in open("rulebased_reward_model.pairs.txt"):
+for l in open("./data/rulebased_reward_model.pairs.txt"):
   s, t = l.strip().lower().split()
   if s == "can" or t == "can":
     continue
