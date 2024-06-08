@@ -69,8 +69,12 @@ if args.model2:
   model2 = AutoModelForSeq2SeqLM.from_pretrained(args.model2)
 else:
   model2 = None
-reward_model = AutoModelForSequenceClassification.from_pretrained(
-    args.reward_model)
+
+if args.reward_model:
+  reward_model = AutoModelForSequenceClassification.from_pretrained(
+      args.reward_model)
+else:
+  reward_model = None
 
 candidates = []
 skip_set = skip_file.skipSet(args.skip_file)
@@ -125,12 +129,17 @@ def predict(m, input_str, input_ids, force_words_ids, bad_words_ids, name):
   results = []
   for i in range(len(outputs.sequences)):
     outputs_attention_mask = (padded_outputs[i] != tokenizer.pad_token_id).int()
-    reward_outputs = reward_model(
-        input_ids=input_ids,
-        decoder_input_ids=padded_outputs[i].unsqueeze(0),
-        decoder_attention_mask=outputs_attention_mask.unsqueeze(0))
+    if reward_model:
+      reward_outputs = reward_model(
+          input_ids=input_ids,
+          decoder_input_ids=padded_outputs[i].unsqueeze(0),
+          decoder_attention_mask=outputs_attention_mask.unsqueeze(0))
 
-    reward_probs = torch.nn.functional.softmax(reward_outputs.logits, dim=-1)
+      reward_probs = torch.nn.functional.softmax(reward_outputs.logits, dim=-1)
+      reward = reward_probs[0][1].item(
+      )  #reward_model.overall_reward(input_str, output_str)
+    else:
+      reward = 0.0
 
     output_str = tokenizer.decode(outputs.sequences[i],
                                   skip_special_tokens=True)
@@ -138,8 +147,6 @@ def predict(m, input_str, input_ids, force_words_ids, bad_words_ids, name):
     generated_tokens = outputs.sequences[i, 0:]
     overall_score = outputs.sequences_scores[i].item()
     rule_reward = rulebased_reward_model.ppo_reward(input_str, output_str)
-    reward = reward_probs[0][1].item(
-    )  #reward_model.overall_reward(input_str, output_str)
     results.append((output_str, reward, rule_reward, overall_score, name))
   return results
 
