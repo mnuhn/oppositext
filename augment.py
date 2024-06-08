@@ -1,5 +1,6 @@
 import random
 
+
 def randomly_merge_successive_words(sentence):
   words = sentence.split()
   if len(words) < 2:

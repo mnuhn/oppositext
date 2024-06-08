@@ -200,7 +200,7 @@ def ppo_reward(input_str, output_str):
   factor_a *= equality_reward(input_str, output_str)
   factor_a *= punctuation_reward(input_str, output_str)
   factor_a *= broken_grammar(input_str, output_str)
-  factor_a *= avoid_not(output_str)
+  # factor_a *= avoid_not(output_str)
 
   factor_b = jaccard_reward(input_str, output_str, case=True)**0.3
   factor_b += 0.1 * jaccard_reward(input_str, output_str, case=False)**0.3
