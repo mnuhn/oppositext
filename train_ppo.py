@@ -63,14 +63,9 @@ parser.add_argument('--max_ppo_steps',
                     type=int,
                     help='max_ppo_steps')
 parser.add_argument('--max_len', default=35, type=int, help='maximum length')
-parser.add_argument('--batch_size',
-                    default=128,
-                    type=int,
-                    help='maximum length')
-parser.add_argument('--learning_rate',
-                    default=0.000015,
-                    type=float,
-                    help='learning rate')
+parser.add_argument('--batch_size', default=128, type=int)
+parser.add_argument('--mini_batch_size', default=8, type=int)
+parser.add_argument('--learning_rate', default=0.000015, type=float)
 
 args = parser.parse_args()
 
@@ -103,7 +98,7 @@ ppo_config = PPOConfig(
     batch_size=args.batch_size,
     use_score_scaling=args.use_score_scaling,
     use_score_norm=args.use_score_norm,
-    mini_batch_size=8,
+    mini_batch_size=args.mini_batch_size,
     adap_kl_ctrl=True,
     kl_penalty='abs',
     project_kwargs={
