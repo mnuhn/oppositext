@@ -22,19 +22,14 @@ import time
 import argparse
 
 parser = argparse.ArgumentParser(description='Train SFT')
-parser.add_argument('--training_data',
-                    dest='training_data',
-                    default=None,
-                    help='training_data')
+parser.add_argument('--training_data', default=None)
+parser.add_argument('--model', default="t5-base")
 parser.add_argument('--model_out',
-                    dest='model_out',
-                    default=f'./training/{str(int(time.time()))}',
-                    help='model_out')
+                    default=f'./training/{str(int(time.time()))}')
 
 args = parser.parse_args()
 
-model = AutoModelForSeq2SeqLM.from_pretrained(
-    "t5-base")  # "training/1712925943-final")#
+model = AutoModelForSeq2SeqLM.from_pretrained(args.model)
 data_collator = DataCollatorWithPadding(tokenizer=data.tokenizer)
 
 all_data = Dataset.from_generator(data.train_gen(

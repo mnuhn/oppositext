@@ -34,68 +34,40 @@ import rulebased_reward_model
 DEVICE = "cuda:0"
 
 parser = argparse.ArgumentParser(description='Train PPO')
-parser.add_argument('--model',
-                    dest='model',
-                    default="training/1713207876-final",
-                    help='which model to open')
+parser.add_argument('--model', default=None, help='which model to open')
 parser.add_argument('--rule_reward_fac',
-                    dest='rule_reward_fac',
                     default=0.01,
                     type=float,
                     help='which model to open')
-parser.add_argument('--reward_model',
-                    dest='reward_model',
-                    default=None,
-                    help='which model to open')
-parser.add_argument('--suffix', dest='suffix', default='001', help='suffix')
-parser.add_argument('--prompts_fn',
-                    dest='prompts_fn',
-                    default=None,
-                    help='prompts_fn')
+parser.add_argument('--reward_model', default=None, help='which model to open')
+parser.add_argument('--suffix', default='001', help='suffix')
+parser.add_argument('--prompts_fn', default=None, help='prompts_fn')
 parser.add_argument('--low_rule_reward_override',
-                    dest='low_rule_reward_override',
                     default=False,
                     help='low_rule_reward_override')
 parser.add_argument('--use_score_scaling',
-                    dest='use_score_scaling',
                     default=False,
                     help='use_score_scaling')
-parser.add_argument('--use_score_norm',
-                    dest='use_score_norm',
-                    default=False,
-                    help='use_score_norm')
+parser.add_argument('--use_score_norm', default=False, help='use_score_norm')
 parser.add_argument('--init_kl_coef',
-                    dest='init_kl_coef',
                     default=0.2,
                     type=float,
                     help='init_kl_coef')
-parser.add_argument('--target_kl',
-                    dest='target_kl',
-                    default=1.0,
-                    type=float,
-                    help='target_kl')
+parser.add_argument('--target_kl', default=1.0, type=float, help='target_kl')
 parser.add_argument('--kl_horizon',
-                    dest='kl_horizon',
                     default=1000.0,
                     type=float,
                     help='kl_horizon')
 parser.add_argument('--max_ppo_steps',
-                    dest='max_ppo_steps',
                     default=20,
                     type=int,
                     help='max_ppo_steps')
-parser.add_argument('--max_len',
-                    dest='max_len',
-                    default=35,
-                    type=int,
-                    help='maximum length')
+parser.add_argument('--max_len', default=35, type=int, help='maximum length')
 parser.add_argument('--batch_size',
-                    dest='batch_size',
                     default=128,
                     type=int,
                     help='maximum length')
 parser.add_argument('--learning_rate',
-                    dest='learning_rate',
                     default=0.000015,
                     type=float,
                     help='learning rate')

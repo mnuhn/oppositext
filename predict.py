@@ -21,71 +21,38 @@ from transformers.utils import logging
 logging.set_verbosity_error()
 
 parser = argparse.ArgumentParser(description='add predictions to database')
-parser.add_argument('--model',
-                    dest='model',
-                    default="training/1713207876-final",
-                    help='which model to open')
+parser.add_argument('--model', default=None, help='which model to open')
+parser.add_argument('--model2', default=None, help='which model to open')
+parser.add_argument('--reward_model', default=None, help='which model to open')
 parser.add_argument('--print_average_reward',
                     default=False,
                     type=bool,
                     help='which model to open')
 parser.add_argument('--rule_reward_fac',
-                    dest='rule_reward_fac',
                     default=0.01,
                     type=float,
                     help='which model to open')
 parser.add_argument('--low_rule_reward_override',
-                    dest='low_rule_reward_override',
                     default=False,
                     help='low_rule_reward_override')
-parser.add_argument('--model2',
-                    dest='model2',
-                    default=None,
-                    help='which model to open')
-parser.add_argument('--reward_model',
-                    dest='reward_model',
-                    default="training/1713732543-reward",
-                    help='which model to open')
-parser.add_argument('--db',
-                    dest='db',
-                    default=None,
-                    help='db to write predictions to')
-parser.add_argument('--force_antonyms',
-                    dest='force_antonyms',
-                    default=None,
-                    help='force antonyms')
-parser.add_argument('--skip_file',
-                    dest='skip_file',
-                    default=None,
-                    help='prompts to skip')
+parser.add_argument('--db', default=None, help='db to write predictions to')
+parser.add_argument('--force_antonyms', default=None, help='force antonyms')
+parser.add_argument('--skip_file', default=None, help='prompts to skip')
 parser.add_argument('--num_to_generate_per_type',
-                    dest='num_to_generate_per_type',
-                    default=20,
+                    default=1,
                     type=int,
                     help='number of completions per prompt')
 parser.add_argument('--num_to_keep_per_type',
-                    dest='num_to_keep_per_type',
-                    default=3,
+                    default=1,
                     type=int,
                     help='number of completions per prompt')
 parser.add_argument('--num_beams',
-                    dest='num_beams',
-                    default=30,
+                    default=5,
                     type=int,
                     help='number of completions per prompt')
-parser.add_argument('--max_len',
-                    dest='max_len',
-                    default=100,
-                    type=int,
-                    help='maximum length')
-parser.add_argument('--prompts',
-                    dest='prompts',
-                    default=None,
-                    help='file with prompts')
-parser.add_argument('--interactive',
-                    dest='interactive',
-                    default=None,
-                    help='file with prompts')
+parser.add_argument('--max_len', default=100, type=int, help='maximum length')
+parser.add_argument('--prompts', default=None, help='file with prompts')
+parser.add_argument('--interactive', default=None, help='file with prompts')
 
 args = parser.parse_args()
 

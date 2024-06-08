@@ -2,12 +2,9 @@ import prompt_db
 import argparse
 
 parser = argparse.ArgumentParser(description='add predictions to database')
-parser.add_argument('--db1', dest='db1', default=None, help='db1 to read from')
-parser.add_argument('--db2', dest='db2', default=None, help='db to read from')
-parser.add_argument('--db_out',
-                    dest='db_out',
-                    default=None,
-                    help='db to write predictions to')
+parser.add_argument('--db1', default=None, help='db1 to read from')
+parser.add_argument('--db2', default=None, help='db to read from')
+parser.add_argument('--db_out', default=None, help='output db')
 args = parser.parse_args()
 
 db1 = prompt_db.prompt_db(args.db1)

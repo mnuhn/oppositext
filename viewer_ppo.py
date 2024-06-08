@@ -11,15 +11,9 @@ import prompt_db
 import viewer_common
 
 parser = argparse.ArgumentParser(description='HTTP rating tool for PPO')
-parser.add_argument('--db', dest='db', default=None, help='which db to open')
-parser.add_argument('--port',
-                    dest='port',
-                    default=18080,
-                    help='port for server')
-parser.add_argument('--host',
-                    dest='host',
-                    default='0.0.0.0',
-                    help='where to listen for requests')
+parser.add_argument('--db', default=None, help='which db to open')
+parser.add_argument('--port', default=18080, help='port for server')
+parser.add_argument('--host', default='0.0.0.0', help='host for http')
 
 args = parser.parse_args()
 

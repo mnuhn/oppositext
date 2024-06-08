@@ -36,55 +36,31 @@ from datasets import load_dataset
 import prompt_db
 
 parser = argparse.ArgumentParser(description='Train SFT')
-parser.add_argument('--db',
-                    dest='db',
-                    default=None,
-                    help='db to write predictions to')
-parser.add_argument('--model',
-                    dest='model',
-                    default=None,
-                    help='which model to open')
+parser.add_argument('--db', default=None, help='db to write predictions to')
+parser.add_argument('--model', default=None, help='which model to open')
 parser.add_argument('--learning_rate',
-                    dest='learning_rate',
                     default=0.001,
                     type=float,
                     help='which model to open')
 parser.add_argument('--margin',
-                    dest='margin',
                     default=0.0,
                     type=float,
                     help='which model to open')
 parser.add_argument('--weight_decay',
-                    dest='weight_decay',
                     default=0.05,
                     type=float,
                     help='which model to open')
-parser.add_argument('--epochs',
-                    dest='epochs',
-                    default=20.0,
-                    type=float,
-                    help='which model to open')
-parser.add_argument('--out_model',
-                    dest='out_model',
-                    default=None,
-                    help='which model to open')
+parser.add_argument('--epochs', default=20.0, type=float)
+parser.add_argument('--out_model', default=None, help='which model to open')
 parser.add_argument('--tb_suffix',
-                    dest='tb_suffix',
                     default=str(random.randint(10000, 99999)),
                     help='which model to open')
-parser.add_argument('--suffix',
-                    dest='suffix',
-                    default="",
-                    help='which model to open')
+parser.add_argument('--suffix', default='', help='which model to open')
 parser.add_argument('--test_frac',
-                    dest='test_frac',
                     default=0.1,
                     type=float,
                     help='how much data to use for the test set')
-parser.add_argument('--train_all_parameters',
-                    dest='train_all_parameters',
-                    default=None,
-                    help='which model to open')
+parser.add_argument('--train_all_parameters', default=None)
 
 args = parser.parse_args()
 

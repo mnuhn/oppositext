@@ -14,14 +14,8 @@ import argparse
 import rulebased_reward_model as reward_model
 
 parser = argparse.ArgumentParser(description='add predictions to database')
-parser.add_argument('--model',
-                    dest='model',
-                    default="training/1713207876-final",
-                    help='which model to open')
-parser.add_argument('--prompts',
-                    dest='prompts',
-                    default=None,
-                    help='file with prompts')
+parser.add_argument('--model', default=None, help='which model to open')
+parser.add_argument('--prompts', default=None, help='file with prompts')
 
 args = parser.parse_args()
 

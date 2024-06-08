@@ -3,11 +3,8 @@ import argparse
 #import rulebased_reward_model as reward_model
 
 parser = argparse.ArgumentParser(description='write model predictions to db')
-parser.add_argument('--db', dest='db', default=None, help='which db to open')
-parser.add_argument('--rated_only',
-                    dest='rated_only',
-                    default=False,
-                    help='which db to open')
+parser.add_argument('--db', default=None, help='which db to open')
+parser.add_argument('--rated_only', default=False, help='which db to open')
 args = parser.parse_args()
 
 db = prompt_db.prompt_db(args.db)
