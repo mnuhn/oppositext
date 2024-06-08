@@ -200,8 +200,8 @@ training_args = RewardConfig(
     metric_for_best_model='eval_loss',
     save_strategy='steps',
     evaluation_strategy='steps',
-    save_steps=20,
-    eval_steps=20,
+    save_steps=200,
+    eval_steps=200,
     remove_unused_columns=False,
     max_length=128,
 )

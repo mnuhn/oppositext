@@ -102,8 +102,8 @@ training_args = TrainingArguments(
     metric_for_best_model='eval_loss',
     save_strategy='steps',
     evaluation_strategy='steps',
-    save_steps=100,
-    eval_steps=100,
+    save_steps=3000,
+    eval_steps=3000,
 )
 
 trainer = Trainer(
