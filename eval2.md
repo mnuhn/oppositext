@@ -1,104 +1,111 @@
+* T5-Base SFT: ./data/t5base.sft.model
+* T5-Base PPO: ./data/mix23.txt.augmented3.t5base.model-final.rewardmodel2c-no-avoid-not.ppo-step73
+
+* T5-Base SFT: Wins 1
+* T5-Base PPO: Wins 6
+* Draw: 14
+
 * Prompt: He is nice.
-   * Mix23 SFT: He is not nice.
-   * Mix23 PPO: He is not nice.
+   * T5-Base SFT: He is not nice.
+   * T5-Base PPO: He is not nice.
    * Result: -
 
 * Prompt: He is my best friend.
-   * Mix23 SFT: He is not my best friend.
-   * Mix23 PPO: He is my best friend.
-   * Result: 1
+   * T5-Base SFT: He is not my best friend.
+   * T5-Base PPO: He is not my best friend.
+   * Result: -
 
 * Prompt: Thomas is my best friend.
-   * Mix23 SFT: Thomas is not my best friend.
-   * Mix23 PPO: Thomas is my best friend.
-   * Result: 1
+   * T5-Base SFT: Thomas is not my best friend.
+   * T5-Base PPO: Thomas is not my best friend.
+   * Result: -
 
 * Prompt: Thomas is real nice.
-   * Mix23 SFT: Thomas is not real nice.
-   * Mix23 PPO: Thomas is a monster.
+   * T5-Base SFT: Thomas is not very nice.
+   * T5-Base PPO: Thomas is not real nice.
    * Result: 2
 
 * Prompt: I am super relaxed.
-   * Mix23 SFT: I am not super relaxed.
-   * Mix23 PPO: I am a little nervous.
-   * Result: 2
+   * T5-Base SFT: I am not super relaxed.
+   * T5-Base PPO: I am not super relaxed.
+   * Result: -
 
 * Prompt: He walked down the street.
-   * Mix23 SFT: He walked up the street.
-   * Mix23 PPO: He walked up the street.
-   * Result: -
+   * T5-Base SFT: He walked up the street.
+   * T5-Base PPO: He did not walk down the street.
+   * Result: 2
 
 * Prompt: He is extremely rich.
-   * Mix23 SFT: He is not extremely rich.
-   * Mix23 PPO: He is extremely rich.
-   * Result: 1
+   * T5-Base SFT: He is not extremely rich.
+   * T5-Base PPO: He is not extremely rich.
+   * Result: -
 
 * Prompt: Bitter.
-   * Mix23 SFT: Sweet.
-   * Mix23 PPO: gentler.
-   * Result: 1
+   * T5-Base SFT: Sweet.
+   * T5-Base PPO: Sweet.
+   * Result: -
 
 * Prompt: In the morning, eat two tablespoons of vitamin C.
-   * Mix23 SFT: In the morning, never eat two tablespoons of vitamin C.
-   * Mix23 PPO: In the morning, don'teat two tablespoons of vitamin C.
-   * Result: 1
+   * T5-Base SFT: In the morning, don't eat two tablespoons of vitamin C.
+   * T5-Base PPO: In the morning, do not eat two tablespoons of vitamin C.
+   * Result: -
 
 * Prompt: The coffee should be served hot.
-   * Mix23 SFT: The coffee should not be served hot.
-   * Mix23 PPO: The coffee shouldn't be serve cold.
-   * Result: 1
+   * T5-Base SFT: The coffee should not be served hot.
+   * T5-Base PPO: The coffee should not be served hot.
+   * Result: -
 
 * Prompt: Eat the rich.
-   * Mix23 SFT: Eat the poor.
-   * Mix23 PPO: Don't bring the rich.
-   * Result: 1
+   * T5-Base SFT: Eat the poor.
+   * T5-Base PPO: Avoid eating the poor.
+   * Result: -
 
 * Prompt: The older you get, the more you appreciate life.
-   * Mix23 SFT: The older you get, the less you enjoy life.
-   * Mix23 PPO: The fewer you get, the more you don't appreciate life.
-   * Result: 1
+   * T5-Base SFT: The younger you get, the less you enjoy life.
+   * T5-Base PPO: The younger you get, the less you enjoy life.
+   * Result: -
 
 * Prompt: Try to earn as much money as possible.
-   * Mix23 SFT: Try to never earn as much money as possible.
-   * Mix23 PPO: Try to earn more money than possible.
-   * Result: 1
+   * T5-Base SFT: Do not try to earn as much money as possible.
+   * T5-Base PPO: Do not try to earn as much money as possible.
+   * Result: -
 
 * Prompt: The theory of general relativity was invented by Albert Einstein.
-   * Mix23 SFT: The theory of general relativity was never invented by Albert Einstein.
-   * Mix23 PPO: The theory of general relativity was not developed by Albert Einstein.
-   * Result: 1
+   * T5-Base SFT: The theory of general relativity was not invented by Albert Einstein.
+   * T5-Base PPO: The theory of general relativity was not invented by Albert Einstein.
+   * Result: -
 
 * Prompt: I need holidays to relax.
-   * Mix23 SFT: I don't need holidays to relax.
-   * Mix23 PPO: I don't need holidays to relax.
-   * Result: -
+   * T5-Base SFT: I don't need vacations to relax.
+   * T5-Base PPO: I don't need holidays to relax.
+   * Result: 2
 
 * Prompt: I hope to get a promotion soon.
-   * Mix23 SFT: I hope to never get a promotion soon.
-   * Mix23 PPO: I hope to get a promotion soon.
-   * Result: 1
+   * T5-Base SFT: I hope to get a promotion soon.
+   * T5-Base PPO: I hope to not get a promotion soon.
+   * Result: 2
 
 * Prompt: Switzerland has a beautiful landscape.
-   * Mix23 SFT: Switzerland has a terrible landscape.
-   * Mix23 PPO: Switzerland has a terrible landscape.
-   * Result: -
+   * T5-Base SFT: Swiss has a terrible landscape.
+   * T5-Base PPO: Switzerland doesn't have a beautiful landscape.
+   * Result: 2
 
 * Prompt: After work, I have to catch the train to visit a new apartment.
-   * Mix23 SFT: After work, I have to never catch the train to visit a new apartment.
-   * Mix23 PPO: After work, I don't need to catch the train to visit a new apartment.
-   * Result: -
+   * T5-Base SFT: After work, I have to catch the train to visit a new apartment.
+   * T5-Base PPO: After work, I do not have to catch the train to visit a new apartment.
+   * Result: 2
 
 * Prompt: I try intermittent fasting to heal faster.
-   * Mix23 SFT: I never try intermittent fasting to heal faster.
-   * Mix23 PPO: I don't attempt intermittent fasting to heal more quickly.
+   * T5-Base SFT: I do not try intermittent fasting to heal faster.
+   * T5-Base PPO: I don't try intermittent fasting to heal faster.
    * Result: -
 
 * Prompt: It is important to stay calm at all times.
-   * Mix23 SFT: It is not important to stay calm at all times.
-   * Mix23 PPO: It is not important to stay calm at all times.
+   * T5-Base SFT: It is not important to stay calm at all times.
+   * T5-Base PPO: It is not important to stay calm at all times.
    * Result: -
 
 * Prompt: Please bring something for dinner.
-   * Mix23 SFT: Please never bring something for dinner.
-   * Mix23 PPO: No need to bring something for dinner.
-   * Result: -
+   * T5-Base SFT: Please don't bring anything for dinner.
+   * T5-Base PPO: Please don't bring something for dinner.
+   * Result: 1

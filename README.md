@@ -182,9 +182,9 @@ models trained at different stages:
 * **SFT Mix23 vs RLHF Mix23 ([./eval2.md](./eval2.md))**
     * **Winner 🏆: PPO Mix23**
     * Detailed Comparisons
-        *  PPO Mix23 wins 11/21 times
-        *  Draw: 8/21 times
-        *  SFT Mix23 wins 2/21
+        *  PPO Mix23 wins 6/21 times
+        *  Draw: 14/21 times
+        *  SFT Mix23 wins 1/21
 
 **Conclusion:**
 **The overall winner 🏆 is: PPO Mix23.**
